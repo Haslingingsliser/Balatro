@@ -1,1 +1,149 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Match of the Year</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #8B0000, #FF4500);
+            min-height: 100vh;
+            font-family: 'Arial Black', sans-serif;
+            text-align: center;
+            color: white;
+        }
+
+        header {
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .fighters-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin-top: 50px;
+        }
+
+        .fighter-img {
+            width: 300px;
+            height: 300px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 3px solid #FFD700;
+        }
+
+        .fighter-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #FF8C00;
+        }
+
+        .vs {
+            font-size: 48px;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            background: linear-gradient(to bottom, #8B0000, #FF4500);
+            margin: 15% auto;
+            padding: 20px;
+            border: 3px solid #FFD700;
+            width: 60%;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .close {
+            color: #FFD700;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #FF8C00;
+        }
+
+        h1 {
+            font-size: 3em;
+            text-shadow: 2px 2px 4px #FF0000;
+            margin: 0;
+            color: #FFD700;
+        }
+
+        h2 {
+            font-size: 2em;
+            text-shadow: 2px 2px 4px #FF0000;
+            color: #FFFFFF;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔥 Big Match Of The Year! 🔥</h1>
+        <h2>Choose your fighter</h2>
+    </header>
+
+    <div class="fighters-container">
+        <img src="bingus.jpg" alt="Bingus" class="fighter-img" onclick="showModal('bingus')">
+        <div class="vs">VS</div>
+        <img src="spongius.jpg" alt="Spongius" class="fighter-img" onclick="showModal('spongius')">
+    </div>
+
+    <!-- Bingus Modal -->
+    <div id="bingusModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('bingus')">&times;</span>
+            <h2>Name: Bingus</h2>
+            <h3>Age: Unknown</h3>
+            <p>Deskripsi Karakter:<br>
+            Bingus merupakan kucing yang suka mengigit pantat anda.</p>
+        </div>
+    </div>
+
+    <!-- Spongius Modal -->
+    <div id="spongiusModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('spongius')">&times;</span>
+            <h2>Name: Spongius</h2>
+            <h3>Age: Unknown</h3>
+            <p>Deskripsi Karakter:<br>
+            Spongius adalah kucing yang sangat baik dan dia suka cuddle.</p>
+        </div>
+    </div>
+
+    <script>
+        function showModal(fighter) {
+            document.getElementById(fighter + 'Modal').style.display = 'block';
+        }
+
+        function closeModal(fighter) {
+            document.getElementById(fighter + 'Modal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside the modal content
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
