@@ -3,26 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Showdown</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <title>FIRE SHOWDOWN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oxanium:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563eb;
-            --secondary: #7c3aed;
-            --dark: #0f172a;
-            --light: #f8fafc;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            --fire-1: #ff6b00;
+            --fire-2: #ff3c00;
+            --fire-3: #ff0000;
+            --dark-bg: #0a0a0a;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--dark);
-            color: var(--light);
+            margin: 0;
+            background: var(--dark-bg);
+            font-family: 'Oxanium', sans-serif;
+            color: white;
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -33,58 +28,78 @@
             padding: 2rem;
         }
 
-        header {
+        /* Header dengan efek api */
+        .header {
             text-align: center;
-            margin-bottom: 4rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards;
+            margin: 4rem 0;
+            position: relative;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
+        .title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4rem;
+            letter-spacing: 4px;
+            background: linear-gradient(45deg, #ff6b00, #ff3c00, #ff0000);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
+            animation: flamePulse 1.5s infinite alternate;
         }
 
+        /* Grid fighter */
         .fighters-grid {
             display: grid;
             grid-template-columns: 1fr auto 1fr;
             gap: 3rem;
             align-items: center;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.3s forwards;
+            margin: 4rem 0;
         }
 
-        .vs-text {
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: var(--primary);
-            transform: rotate(-5deg);
-        }
-
+        /* Card fighter dengan efek api */
         .fighter-card {
             position: relative;
-            border-radius: 1rem;
+            border-radius: 15px;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
+            transition: transform 0.3s;
         }
 
         .fighter-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transform: scale(1.05);
+        }
+
+        .fighter-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--fire-1), var(--fire-2), var(--fire-3));
+            z-index: -1;
+            animation: flameBorder 2s infinite;
         }
 
         .fighter-image {
             width: 100%;
-            height: 400px;
+            height: 500px;
             object-fit: cover;
-            border-radius: 1rem;
+            border-radius: 15px;
+            border: 3px solid rgba(255, 107, 0, 0.3);
         }
 
-        /* Modal Styles */
+        /* VS Text dengan efek api */
+        .vs-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 4rem;
+            color: transparent;
+            background: linear-gradient(45deg, #ff6b00, #ff3c00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: flameFlicker 0.8s infinite alternate;
+        }
+
+        /* Modal dengan efek api */
         .modal {
             display: none;
             position: fixed;
@@ -92,21 +107,27 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.9);
             z-index: 1000;
-            animation: modalEnter 0.3s ease;
         }
 
         .modal-content {
             position: relative;
-            background: var(--dark);
-            max-width: 500px;
+            background: linear-gradient(45deg, #1a1a1a, #0a0a0a);
+            max-width: 600px;
             margin: 2rem auto;
-            padding: 2rem;
-            border-radius: 1rem;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            padding: 3rem;
+            border-radius: 15px;
+            border: 2px solid var(--fire-1);
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.3);
+        }
+
+        .modal-header {
+            font-size: 2.5rem;
+            color: var(--fire-1);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .close-btn {
@@ -115,57 +136,60 @@
             right: 1rem;
             background: none;
             border: none;
-            color: var(--light);
-            font-size: 1.5rem;
+            color: var(--fire-1);
+            font-size: 2rem;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: color 0.3s;
         }
 
         .close-btn:hover {
-            color: var(--primary);
+            color: var(--fire-3);
         }
 
         /* Animations */
-        @keyframes fadeInUp {
+        @keyframes flamePulse {
             from {
-                opacity: 0;
-                transform: translateY(20px);
+                text-shadow: 0 0 20px rgba(255, 107, 0, 0.5);
             }
             to {
-                opacity: 1;
-                transform: translateY(0);
+                text-shadow: 0 0 40px rgba(255, 107, 0, 0.8),
+                             0 0 60px rgba(255, 107, 0, 0.6);
             }
         }
 
-        @keyframes modalEnter {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        @keyframes flameFlicker {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        @keyframes flameBorder {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
         }
 
         @media (max-width: 768px) {
             .fighters-grid {
                 grid-template-columns: 1fr;
-                gap: 2rem;
             }
             
             .vs-text {
-                transform: rotate(0);
                 margin: 2rem 0;
+                font-size: 3rem;
+            }
+            
+            .fighter-image {
+                height: 350px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>BIG MATCH OF THE YEAR</h1>
-            <p class="subtitle">Choose your fighter</p>
+        <header class="header">
+            <h1 class="title">BIG MATCH OF THE YEAR</h1>
+            <p class="subtitle">CHOOSE YOUR FIGHTER</p>
         </header>
 
         <div class="fighters-grid">
@@ -184,9 +208,9 @@
         <div id="bingusModal" class="modal">
             <div class="modal-content">
                 <button class="close-btn" onclick="closeModal('bingus')">&times;</button>
-                <h2>Bingus</h2>
+                <h2 class="modal-header">Bingus</h2>
                 <div class="modal-body">
-                    <p><strong>Age:</strong> Unknown</p>
+                    <p><strong>AGE:</strong> UNKNOWN</p>
                     <p class="description">Bingus merupakan kucing yang suka mengigit pantat anda.</p>
                 </div>
             </div>
@@ -195,9 +219,9 @@
         <div id="spongiusModal" class="modal">
             <div class="modal-content">
                 <button class="close-btn" onclick="closeModal('spongius')">&times;</button>
-                <h2>Spongius</h2>
+                <h2 class="modal-header">Spongius</h2>
                 <div class="modal-body">
-                    <p><strong>Age:</strong> Unknown</p>
+                    <p><strong>AGE:</strong> UNKNOWN</p>
                     <p class="description">Spongius adalah kucing yang sangat baik dan dia suka cuddle.</p>
                 </div>
             </div>
@@ -213,7 +237,6 @@
             document.getElementById(`${fighter}Modal`).style.display = 'none';
         }
 
-        // Close modal when clicking outside
         window.onclick = function(event) {
             if (event.target.className === 'modal') {
                 event.target.style.display = 'none';
