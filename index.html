@@ -3,51 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Big Match of the Year</title>
+    <title>Ultimate Showdown</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body {
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background: linear-gradient(to bottom, #8B0000, #FF4500);
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--light);
             min-height: 100vh;
-            font-family: 'Arial Black', sans-serif;
-            text-align: center;
-            color: white;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
         }
 
         header {
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            margin-bottom: 4rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
         }
 
-        .fighters-container {
-            display: flex;
-            justify-content: center;
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .fighters-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 3rem;
             align-items: center;
-            gap: 50px;
-            margin-top: 50px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.3s forwards;
         }
 
-        .fighter-img {
-            width: 300px;
-            height: 300px;
-            border-radius: 15px;
+        .vs-text {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            transform: rotate(-5deg);
+        }
+
+        .fighter-card {
+            position: relative;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 3px solid #FFD700;
         }
 
-        .fighter-img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px #FF8C00;
+        .fighter-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
-        .vs {
-            font-size: 48px;
-            color: #FFD700;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        .fighter-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 1rem;
         }
 
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -55,89 +92,128 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            animation: modalEnter 0.3s ease;
         }
 
         .modal-content {
-            background: linear-gradient(to bottom, #8B0000, #FF4500);
-            margin: 15% auto;
-            padding: 20px;
-            border: 3px solid #FFD700;
-            width: 60%;
-            border-radius: 10px;
             position: relative;
+            background: var(--dark);
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        .close {
-            color: #FFD700;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
             cursor: pointer;
+            transition: color 0.3s ease;
         }
 
-        .close:hover {
-            color: #FF8C00;
+        .close-btn:hover {
+            color: var(--primary);
         }
 
-        h1 {
-            font-size: 3em;
-            text-shadow: 2px 2px 4px #FF0000;
-            margin: 0;
-            color: #FFD700;
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        h2 {
-            font-size: 2em;
-            text-shadow: 2px 2px 4px #FF0000;
-            color: #FFFFFF;
+        @keyframes modalEnter {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .fighters-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .vs-text {
+                transform: rotate(0);
+                margin: 2rem 0;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>🔥 Big Match Of The Year! 🔥</h1>
-        <h2>Choose your fighter</h2>
-    </header>
+    <div class="container">
+        <header>
+            <h1>BIG MATCH OF THE YEAR</h1>
+            <p class="subtitle">Choose your fighter</p>
+        </header>
 
-    <div class="fighters-container">
-        <img src="images/Bingus.jpg" alt="Bingus" class="fighter-img" onclick="showModal('bingus')">
-        <div class="vs">VS</div>
-        <img src="images/Spongius.jpg" alt="Spongius" class="fighter-img" onclick="showModal('spongius')">
-    </div>
-
-    <!-- Bingus Modal -->
-    <div id="bingusModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('bingus')">&times;</span>
-            <h2>Name: Bingus</h2>
-            <h3>Age: Unknown</h3>
-            <p>Deskripsi Karakter:<br>
-            Bingus merupakan kucing yang suka mengigit pantat anda.</p>
+        <div class="fighters-grid">
+            <div class="fighter-card" onclick="showModal('bingus')">
+                <img src="images/Bingus.jpg" alt="Bingus" class="fighter-image">
+            </div>
+            
+            <div class="vs-text">VS</div>
+            
+            <div class="fighter-card" onclick="showModal('spongius')">
+                <img src="images/Spongius.jpg" alt="Spongius" class="fighter-image">
+            </div>
         </div>
-    </div>
 
-    <!-- Spongius Modal -->
-    <div id="spongiusModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('spongius')">&times;</span>
-            <h2>Name: Spongius</h2>
-            <h3>Age: Unknown</h3>
-            <p>Deskripsi Karakter:<br>
-            Spongius adalah kucing yang sangat baik dan dia suka cuddle.</p>
+        <!-- Modals -->
+        <div id="bingusModal" class="modal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal('bingus')">&times;</button>
+                <h2>Bingus</h2>
+                <div class="modal-body">
+                    <p><strong>Age:</strong> Unknown</p>
+                    <p class="description">Bingus merupakan kucing yang suka mengigit pantat anda.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="spongiusModal" class="modal">
+            <div class="modal-content">
+                <button class="close-btn" onclick="closeModal('spongius')">&times;</button>
+                <h2>Spongius</h2>
+                <div class="modal-body">
+                    <p><strong>Age:</strong> Unknown</p>
+                    <p class="description">Spongius adalah kucing yang sangat baik dan dia suka cuddle.</p>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         function showModal(fighter) {
-            document.getElementById(fighter + 'Modal').style.display = 'block';
+            document.getElementById(`${fighter}Modal`).style.display = 'block';
         }
 
         function closeModal(fighter) {
-            document.getElementById(fighter + 'Modal').style.display = 'none';
+            document.getElementById(`${fighter}Modal`).style.display = 'none';
         }
 
-        // Close modal when clicking outside the modal content
+        // Close modal when clicking outside
         window.onclick = function(event) {
             if (event.target.className === 'modal') {
                 event.target.style.display = 'none';
